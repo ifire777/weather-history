@@ -16,5 +16,5 @@
     <TextView
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:text="Hello rebase World!" />
+        android:text="rebase World!" />
 </RelativeLayout>
