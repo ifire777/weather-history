@@ -1,4 +1,4 @@
-package features;
+package features.userRank;
 
 /**
  * Created by kip on 28.09.2016.
