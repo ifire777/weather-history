@@ -1,4 +1,5 @@
 # weather-history 
+####!!![this rep contains code for work project. everything that contains training homeTasks, technology tests, research, will be pushed into /https://github.com/ifire777/android_training_E2016]
 
 ### This repository contains the source code for the "Weather History Archive" Android app.
 Build Status
