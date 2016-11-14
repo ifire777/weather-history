@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Weather Archive</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_send_feedback">Send feedback</string>
+    <string name="mail_body">Put your message here...</string>
+    <string name="mail_head">App. Weather Archive.</string>
+    <string name="mail_address">kudziev.ip@gmail.com</string>
+
+    <string name="provider_gps">GPS</string>
+    <string name="provider_network">Network</string>
+    <string name="location_settings">Location settings</string>
+
+    <string name="wc_C">C</string>
+    <string name="wc_humidity">"humidity: "</string>
+    <string name="wc_persent">%</string>
+    <string name="wc_wind">"wind: "</string>
+    <string name="wc_speed_units">m/s</string>
+    <string name="sca_nodata">No data to add ...</string>
+</resources>

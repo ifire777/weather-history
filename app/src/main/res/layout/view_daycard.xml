@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cv"
+    android:layout_width="300dp"
+    android:layout_height="80dp"
+    android:layout_margin="6dp"
+    android:elevation="2dp">
+
+
+    <ImageView
+        android:id="@+id/dwc_weatherimage"
+        android:layout_marginTop="10dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@color/colorPrimary"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/dwc_city"
+        android:layout_width="190dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="0dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:textSize="8sp"/>
+    <TextView
+        android:id="@+id/dwc_todaydate"
+        android:layout_width="110dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="190dp"
+        android:gravity="center"
+        android:background="@color/cardview_light_background"
+        android:textSize="8sp"/>
+    <TextView
+        android:id="@+id/dwc_temperature"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:background="@color/in_color_green"
+        android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/dwc_humisity"
+        android:layout_width="110dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:background="@color/in_color_primary"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/dwc_windspeed"
+        android:layout_width="110dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="45dp"
+        android:gravity="center"
+        android:background="@color/in_color_grey"
+        android:textSize="15sp"/>
+
+
+</android.support.v7.widget.CardView>
