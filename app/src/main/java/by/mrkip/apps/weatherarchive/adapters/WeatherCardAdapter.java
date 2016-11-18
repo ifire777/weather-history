@@ -16,13 +16,15 @@ import java.util.List;
 import by.mrkip.apps.weatherarchive.App;
 import by.mrkip.apps.weatherarchive.R;
 import by.mrkip.apps.weatherarchive.SpecificCityActivity;
+import by.mrkip.apps.weatherarchive.globalObj.AppContextIns;
 import by.mrkip.apps.weatherarchive.imageLoader.SimpleImageLoader;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
 
 public class WeatherCardAdapter extends RecyclerView.Adapter<WeatherCardAdapter.ViewHolder> {
 	private List<WeatherCard> mDataSet;
 	private int mDataSetTypes;
-	private SimpleImageLoader simpleImageLoader = App.getSimpleImageLoader();
+	//TODO move to utils getSystemService
+	private SimpleImageLoader simpleImageLoader = (SimpleImageLoader) AppContextIns.get().getSystemService("image_loader");
 
 
 	public WeatherCardAdapter(List<WeatherCard> dataSet, int dataSetTypes) {
@@ -37,8 +39,7 @@ public class WeatherCardAdapter extends RecyclerView.Adapter<WeatherCardAdapter.
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-		View v;
-		v = LayoutInflater.from(viewGroup.getContext())
+		View v = LayoutInflater.from(viewGroup.getContext())
 				.inflate(R.layout.view_daycard, viewGroup, false);
 
 		return new WeatherViewHolder(v);

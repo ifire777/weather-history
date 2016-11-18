@@ -15,6 +15,7 @@ import java.util.Locale;
 import by.mrkip.apps.weatherarchive.R;
 
 
+//TODO move to same package as another activities
 public class LocationActivity extends AppCompatActivity {
 	TextView tvEnabledGPS;
 	TextView tvStatusGPS;
@@ -42,6 +43,7 @@ public class LocationActivity extends AppCompatActivity {
 
 		}
 
+	//TODO request permission on Android 6.0
 	@SuppressWarnings("MissingPermission")
 	private void showLocation(Location location) {
 		if (location == null)
@@ -61,8 +63,9 @@ public class LocationActivity extends AppCompatActivity {
 	}
 
 	private void checkEnabled() {
-		tvEnabledGPS.setText(new StringBuilder().append("Enabled: ").append(locationManager
-				.isProviderEnabled(LocationManager.GPS_PROVIDER)).toString());
+		tvEnabledGPS.setText("Enabled: "  +locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER));
+		//TODo why you use StringBuilder
 		tvEnabledNet.setText(new StringBuilder().append("Enabled: ").append(locationManager
 				.isProviderEnabled(LocationManager.NETWORK_PROVIDER)).toString());
 	}

@@ -15,8 +15,8 @@ public class MyDateFun {
 		Calendar dt = Calendar.getInstance();
 		dt.setTime(pDt);
 		dt.add(defType, defNum);
-
-		return new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(dt.getTime());
+		//TODO constants, locale
+		return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(dt.getTime());
 	}
 
 	public String dateToQueryParam(Date pDt) {

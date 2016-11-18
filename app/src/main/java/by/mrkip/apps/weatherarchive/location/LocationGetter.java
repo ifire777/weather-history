@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
 
+//TODO clear not used code and not used classes.
 public class LocationGetter {
 
 	private LocationManager locationManager;
@@ -43,10 +44,6 @@ public class LocationGetter {
 	}
 
 	private void checkEnabled() {
-		//	tvEnabledGPS.setText(new StringBuilder().append("Enabled: ").append(locationManager
-		//			.isProviderEnabled(LocationManager.GPS_PROVIDER)).toString());
-		//	tvEnabledNet.setText(new StringBuilder().append("Enabled: ").append(locationManager
-		//			.isProviderEnabled(LocationManager.NETWORK_PROVIDER)).toString());
 	}
 
 	private LocationListener locationListener = new LocationListener() {

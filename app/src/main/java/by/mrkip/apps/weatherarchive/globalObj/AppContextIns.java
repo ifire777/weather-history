@@ -3,6 +3,7 @@ package by.mrkip.apps.weatherarchive.globalObj;
 import android.content.Context;
 
 
+//TODO implement singletone on application level
 public enum AppContextIns {
 
 	INSTANCE;

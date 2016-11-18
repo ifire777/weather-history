@@ -11,12 +11,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import by.mrkip.apps.weatherarchive.globalObj.JsonKeys;
 import by.mrkip.apps.weatherarchive.model.PlaceData;
 import by.mrkip.libs.http.HttpClient;
 
 import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_ERROR_MESSAGE;
 import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_STATUS;
 
+//TODO it is not presenter. Read about presenter
 public class CityDataPresenter implements HttpClient.ResultConverter<PlaceData> {
 
 	public static final String OK = "OK";
@@ -28,8 +30,7 @@ public class CityDataPresenter implements HttpClient.ResultConverter<PlaceData> 
 		PlaceData result = new PlaceData();
 		try {
 			JSONObject jsonObj = new JSONObject(getJSONString(inputStream));
-
-			if (jsonObj.getString(VALUE_STATUS).equals(OK)) {
+			if (jsonObj.getString(JsonKeys.Values.STATUS).equals(OK)) {
 				jsonObj = jsonObj.getJSONObject("result").getJSONObject("geometry").getJSONObject("location");
 				result.setLan(getLanFromJSON(jsonObj));
 				result.setLon(getLonFromJSON(jsonObj));

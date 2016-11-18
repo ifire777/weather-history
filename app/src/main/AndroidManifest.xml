@@ -11,6 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--TODO clear not used code-->
         <!--   <meta-data
                android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyC6kbkyu1mwdz18BcylDhK_YlZretj9650"/>-->

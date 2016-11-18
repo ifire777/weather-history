@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
+//TODO singletone
 public class HttpClient {
 
 	public static final String REQUEST_TYPE_GET = "GET";

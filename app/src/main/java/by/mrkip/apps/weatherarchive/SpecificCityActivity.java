@@ -2,6 +2,7 @@ package by.mrkip.apps.weatherarchive;
 
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -69,6 +70,7 @@ public class SpecificCityActivity extends AppCompatActivity {
 
 		String endDt = dtFun.dateDefToQueryParam(dt, Calendar.DAY_OF_MONTH, -1);
 		String startDt = dtFun.dateDefToQueryParam(dt, Calendar.DAY_OF_MONTH, -30);
+		//TODO constnats
 		String city_lan = intent.getStringExtra("city_lan");
 		String city_lon = intent.getStringExtra("city_lon");
 		new MyTask().execute(getPastDayWeatherQuery(city_lan, city_lon, startDt, endDt));

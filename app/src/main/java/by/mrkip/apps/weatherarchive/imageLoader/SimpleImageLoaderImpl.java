@@ -17,6 +17,7 @@ import by.mrkip.apps.weatherarchive.threads.ProgressCallback;
 import by.mrkip.apps.weatherarchive.threads.ThreadManager;
 import by.mrkip.libs.http.HttpClient;
 
+//TODO implement own imager loader
 public class SimpleImageLoaderImpl implements SimpleImageLoader {
 	public static final int MAX_MEMORY_FOR_IMAGES = 64 * 1000 * 1000;
 

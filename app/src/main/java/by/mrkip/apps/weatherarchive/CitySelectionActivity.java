@@ -49,15 +49,18 @@ public class CitySelectionActivity extends AppCompatActivity implements AdapterV
 		getSelectedCityData(getCityDataQuery(((PlaceData) (adapterView.getItemAtPosition(position))).getPlaceId()));
 	}
 
+	//TODO todo move to another place
 	private void getSelectedCityData(final String urlRequest) {
 		executorService.execute(new Runnable() {
 			@Override
 			public void run() {
 				HttpClient httpClient = new HttpClient();
 				try {
+					//TODO check naming
  					returnSelectedCity(httpClient.getResult(urlRequest, new CityDataPresenter()));
 
 				} catch (IOException e) {
+					//TODO don' ignore error
 					Log.e(this.toString(), this.toString() + "|IOException :", e);
 
 

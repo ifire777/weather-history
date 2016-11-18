@@ -59,6 +59,7 @@ public class PlacesAutocompleteAdapter extends ArrayAdapter<PlaceData> implement
 					try {
 						resultList = requestCityList(getCityAutocompleteQuery(constraint.toString()));
 					} catch (UnsupportedEncodingException e) {
+						//TODO bad solution
 						e.printStackTrace();
 					}
 
@@ -75,6 +76,7 @@ public class PlacesAutocompleteAdapter extends ArrayAdapter<PlaceData> implement
 
 			@Nullable
 			private ArrayList<PlaceData> requestCityList(String urlRequest) {
+				//TODO adapter shouldn' know about httpClient
 				HttpClient httpClient = new HttpClient();
 				try {
 					List<PlaceData> testL;

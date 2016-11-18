@@ -7,20 +7,21 @@ import by.mrkip.apps.weatherarchive.imageLoader.SimpleImageLoader;
 
 public class App extends MultiDexApplication {
 
-	private static SimpleImageLoader simpleImageLoader;
+	private SimpleImageLoader simpleImageLoader;
 
-	public static SimpleImageLoader getSimpleImageLoader() {
-		if (simpleImageLoader == null) {
-		 	simpleImageLoader = SimpleImageLoader.Impl.newInstance();
-		}
-		return simpleImageLoader;
-	}
-
+	//TODO create singletone over application
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		AppContextIns.set(this);
+		simpleImageLoader = SimpleImageLoader.Impl.newInstance();
 	}
 
-
+	@Override
+	public Object getSystemService(String name) {
+		if (name.equals("image_loader")) {
+			return simpleImageLoader;
+		}
+		return super.getSystemService(name);
+	}
 }

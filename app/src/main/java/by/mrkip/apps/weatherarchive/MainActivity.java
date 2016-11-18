@@ -50,6 +50,7 @@ import static by.mrkip.apps.weatherarchive.globalObj.Api.WEATHER_API_KEY;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
+	//TODO remove that
 	/*private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));*/
 	private static final int REQUEST_SELECT_PLACE = 1000;
 
@@ -65,10 +66,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
+		//TODO create separated method
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				//TODO clear that
 				/*try { //TODO: Too easy and does't work without google play services! need to be rewrite
 					Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
 							.setBoundsBias(BOUNDS_MOUNTAIN_VIEW)
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 					Intent intent = new Intent(MainActivity.this, CitySelectionActivity.class);
 					startActivityForResult(intent, REQUEST_SELECT_PLACE);
 				} catch (Exception e) {
+					//TODO very bad solution
 					e.printStackTrace();
 				}
 
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 		initRecyclerView();
 		//TODO: start city list get from sqlite or preference
+		//TODO MyTask
 		new MyTask().execute(getFutureDayWeatherQuery("53.6667", "23.8333", "today"),
 				getFutureDayWeatherQuery("23.6667", "13.8333", "today"),
 				getFutureDayWeatherQuery("77.4445", "-35.6835", "today"),
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 				new MyTask().execute(getFutureDayWeatherQuery(data.getStringExtra("cityLan"),data.getStringExtra("cityLon"), "today"));
 
 			} else {
+				//TODO hardcode
 				Snackbar.make(new View(this), "Place selection failed: ", Snackbar.LENGTH_LONG)
 						.setAction("Action", null).show();
 
@@ -151,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		itemTouchHelper.attachToRecyclerView(recyclerView);
 	}
 
+	//TODO move to utils
 	private String getFutureDayWeatherQuery(String coorLan, String coorLon, String dt) {
 		return new GetQueryBuilder(FUTURE_WEATHER_URL)
 				.addParam(QUERY_PARAM_Q, coorLan + "," + coorLon)
@@ -207,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		return super.onOptionsItemSelected(item);
 	}
 
+	//TODO remove that annotation
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
@@ -234,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		return true;
 	}
 
+	//TODO move to utils
 	public void gotoMail(View view) {
 		String mailto = "mailto:bob@example.org" +
 				"?subject=" + Uri.encode(getString(R.string.mail_head)) +
@@ -255,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 	}
 
+	//TODO move to another class
+	//TODO create some abstractions for that
 	class MyTask extends AsyncTask<String, Integer, List<WeatherCard>> {
 
 		@Override
@@ -268,10 +279,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			HttpClient httpClient = new HttpClient();
 			try {
 				List<WeatherCard> testL = new ArrayList<WeatherCard>();
-				//testL = httpClient.getResult(args[0], new PastWeatherListPresenter());
 				for (int i = 0; i < args.length; i++) {
 
-					testL.add((WeatherCard) httpClient.getResult(args[i], new CurrentWeatherCityListPresenter()));
+					testL.add(httpClient.getResult(args[i], new CurrentWeatherCityListPresenter()));
 				}
 				return testL;
 
@@ -293,7 +303,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 		@Override
 		protected void onPostExecute(List<WeatherCard> result) {
-			//	super.onPostExecute(result);
+			//TODO call super
+//				super.onPostExecute(result);
 			if (result != null) {
 				cardsList = result;
 				((WeatherCardAdapter) recyclerView.getAdapter()).addItems(result);
