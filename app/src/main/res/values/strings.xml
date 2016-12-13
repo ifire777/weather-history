@@ -20,4 +20,9 @@
     <string name="wc_wind">"wind: "</string>
     <string name="wc_speed_units">m/s</string>
     <string name="sca_nodata">No data to add ...</string>
+    <string name="message_place_selection_fail">"Place selection failed: "</string>
+    <string name="message_header_information">Information</string>
+    <string name="app_support_mail">bob@example.org</string>
+    <string name="message_email_app_unevailable">E-mail app unavailable.</string>
+    <string name="message_error">Error :</string>
 </resources>

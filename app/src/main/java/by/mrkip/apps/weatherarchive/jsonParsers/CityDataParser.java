@@ -1,4 +1,4 @@
-package by.mrkip.apps.weatherarchive.presenters;
+package by.mrkip.apps.weatherarchive.jsonParsers;
 
 
 import android.util.Log;
@@ -15,35 +15,36 @@ import by.mrkip.apps.weatherarchive.globalObj.JsonKeys;
 import by.mrkip.apps.weatherarchive.model.PlaceData;
 import by.mrkip.libs.http.HttpClient;
 
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_ERROR_MESSAGE;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_STATUS;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.ERROR_MESSAGE;
 
-//TODO it is not presenter. Read about presenter
-public class CityDataPresenter implements HttpClient.ResultConverter<PlaceData> {
+//TODO it is not presenter. Read about presenter [+]
+public class CityDataParser implements HttpClient.ResultConverter<PlaceData> {
 
 	public static final String OK = "OK";
 	private static final String NOT_FOUND_DEFAULT_VALUE = "";
+	public static final String BAD_JSON_RESULT = "BAD JSON RESULT:";
 
 
 	@Override
-	public PlaceData convert(InputStream inputStream) {
+	public PlaceData convert(InputStream inputStream) throws Exception {
 		PlaceData result = new PlaceData();
-		try {
+		//try {
 			JSONObject jsonObj = new JSONObject(getJSONString(inputStream));
-			if (jsonObj.getString(JsonKeys.Values.STATUS).equals(OK)) {
+			if (jsonObj.getString(JsonKeys.JsonValuesTags.STATUS).equals(OK)) {
 				jsonObj = jsonObj.getJSONObject("result").getJSONObject("geometry").getJSONObject("location");
 				result.setLan(getLanFromJSON(jsonObj));
 				result.setLon(getLonFromJSON(jsonObj));
 				return result;
 			} else {
 
-				Log.e(this.toString(), "BAD JSON RESULT:" + jsonObj.getString(VALUE_ERROR_MESSAGE));
+				Log.e(this.toString(), BAD_JSON_RESULT + jsonObj.getString(ERROR_MESSAGE));
+				throw new Exception(BAD_JSON_RESULT);
 			}
-		} catch (JSONException | IOException e) {
-			e.printStackTrace();
-		}
+		//} catch (JSONException | IOException e) {
+		//	e.printStackTrace();
+		//}
 
-		return result;
+		//return result;
 	}
 
 	private String getJSONString(InputStream inputStream) throws IOException {

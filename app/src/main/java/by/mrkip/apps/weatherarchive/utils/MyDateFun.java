@@ -1,4 +1,4 @@
-package by.mrkip.apps.weatherarchive.dateHelper;
+package by.mrkip.apps.weatherarchive.utils;
 
 
 import java.text.SimpleDateFormat;

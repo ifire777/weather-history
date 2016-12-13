@@ -1,4 +1,4 @@
-package by.mrkip.apps.weatherarchive.presenters;
+package by.mrkip.apps.weatherarchive.jsonParsers;
 
 
 import android.util.Log;
@@ -17,36 +17,35 @@ import java.util.List;
 import by.mrkip.apps.weatherarchive.model.PlaceData;
 import by.mrkip.libs.http.HttpClient;
 
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.PREDICTIONS;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_DESCRIPTION;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_ERROR_MESSAGE;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_PLACE_ID;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_STATUS;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.PREDICTIONS;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.DESCRIPTION;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.ERROR_MESSAGE;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.PLACE_ID;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.STATUS;
 
-public class CitySelectionPresenter implements HttpClient.ResultConverter<List<PlaceData>> {
+public class CitySelectionParser implements HttpClient.ResultConverter<List<PlaceData>> {
 
 	public static final String OK = "OK";
 
 
-
 	@Override
-	public List<PlaceData> convert(InputStream inputStream) {
+	public List<PlaceData> convert(InputStream inputStream) throws JSONException,IOException {
 		ArrayList<PlaceData> resultList = null;
 
 
 		try {
 			JSONObject jsonObj = new JSONObject(getJSONString(inputStream));
-			if (jsonObj.getString(VALUE_STATUS).equals(OK)) {
+			if (jsonObj.getString(STATUS).equals(OK)) {
 				JSONArray predsJsonArray = jsonObj.getJSONArray(PREDICTIONS);
 
 				resultList = new ArrayList<>(predsJsonArray.length());
 				for (int i = 0; i < predsJsonArray.length(); i++) {
-
-					resultList.add(new PlaceData(predsJsonArray.getJSONObject(i).getString(VALUE_DESCRIPTION),predsJsonArray.getJSONObject(i).getString(VALUE_PLACE_ID)));//TODO:constructor-builder of PlaceData object
+					//TODO:constructor-builder of PlaceData object [?]
+					resultList.add(new PlaceData(predsJsonArray.getJSONObject(i).getString(DESCRIPTION), predsJsonArray.getJSONObject(i).getString(PLACE_ID)));
 				}
-			}else{
+			} else {
 
-				Log.e(this.toString(),"BAD JSON RESULT:" + jsonObj.getString(VALUE_ERROR_MESSAGE));
+				Log.e(this.toString(), "BAD JSON RESULT:" + jsonObj.getString(ERROR_MESSAGE));
 			}
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();

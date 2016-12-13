@@ -1,4 +1,4 @@
-package by.mrkip.apps.weatherarchive.presenters;
+package by.mrkip.apps.weatherarchive.jsonParsers;
 
 
 import android.content.Context;
@@ -13,29 +13,29 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.mrkip.apps.weatherarchive.App;
 import by.mrkip.apps.weatherarchive.R;
-import by.mrkip.apps.weatherarchive.globalObj.AppContextIns;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
 import by.mrkip.libs.http.HttpClient;
 
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.AREA_NAME;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.COUNTRY;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.DATA;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.HOURLY;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.NEAREST_AREA;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_DATE;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_HUMIDITY;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_KEY_VALUE;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_TEMP_C1;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.VALUE_WINDSPEED_KMPH;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.WEATHER;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.WEATHER_DESC;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.WEATHER_ICON_URL;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.AREA_NAME;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.COUNTRY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.DATA;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.HOURLY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.NEAREST_AREA;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.WEATHER;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.WEATHER_DESC;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.WEATHER_ICON_URL;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.DATE;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.HUMIDITY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.KEY_VALUE;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.TEMP_C1;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.WINDSPEED_KMPH;
 
 public class PastWeatherListPresenter implements HttpClient.ResultConverter<List<WeatherCard>> {
 	public static final String NOT_FOUND_DEFALT_VALUE = "-";
 
-	private final Context context = AppContextIns.get();
+	private final Context context = App.getAppContext();
 
 
 	@Override
@@ -81,7 +81,7 @@ public class PastWeatherListPresenter implements HttpClient.ResultConverter<List
 
 	private String getTempCFromJSON(JSONObject pJSONObj, int i) {
 		try {
-			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getString(VALUE_TEMP_C1);
+			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getString(TEMP_C1);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return NOT_FOUND_DEFALT_VALUE;
@@ -90,7 +90,7 @@ public class PastWeatherListPresenter implements HttpClient.ResultConverter<List
 
 	private String getWeatherTypeFromJSON(JSONObject pJSONObj, int i) {
 		try {
-			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getJSONArray(WEATHER_DESC).getJSONObject(0).getString(VALUE_KEY_VALUE);
+			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getJSONArray(WEATHER_DESC).getJSONObject(0).getString(KEY_VALUE);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return NOT_FOUND_DEFALT_VALUE;
@@ -99,7 +99,7 @@ public class PastWeatherListPresenter implements HttpClient.ResultConverter<List
 
 	private String getWeatherTypeImgFromJSON(JSONObject pJSONObj, int i) {
 		try {
-			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getJSONArray(WEATHER_ICON_URL).getJSONObject(0).getString(VALUE_KEY_VALUE);
+			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getJSONArray(WEATHER_ICON_URL).getJSONObject(0).getString(KEY_VALUE);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return NOT_FOUND_DEFALT_VALUE;
@@ -108,7 +108,7 @@ public class PastWeatherListPresenter implements HttpClient.ResultConverter<List
 
 	private String getHumidityFromJSON(JSONObject pJSONObj, int i) {
 		try {
-			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getString(VALUE_HUMIDITY);
+			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getString(HUMIDITY);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return NOT_FOUND_DEFALT_VALUE;
@@ -117,7 +117,7 @@ public class PastWeatherListPresenter implements HttpClient.ResultConverter<List
 
 	private String getWindSpeedFromJSON(JSONObject pJSONObj, int i) {
 		try {
-			return String.valueOf(Math.round((pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getDouble(VALUE_WINDSPEED_KMPH) / 3.6) * 10d) / 10d);
+			return String.valueOf(Math.round((pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getJSONArray(HOURLY).getJSONObject(0).getDouble(WINDSPEED_KMPH) / 3.6) * 10d) / 10d);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return NOT_FOUND_DEFALT_VALUE;
@@ -126,7 +126,7 @@ public class PastWeatherListPresenter implements HttpClient.ResultConverter<List
 
 	private String getDateFromJSON(JSONObject pJSONObj, int i) {
 		try {
-			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getString(VALUE_DATE);
+			return pJSONObj.getJSONArray(WEATHER).getJSONObject(i).getString(DATE);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return NOT_FOUND_DEFALT_VALUE;
@@ -135,8 +135,8 @@ public class PastWeatherListPresenter implements HttpClient.ResultConverter<List
 
 	private String getCityFromJSON(JSONObject pJSONObj) {
 		try {
-			return pJSONObj.getJSONArray(NEAREST_AREA).getJSONObject(0).getJSONArray(AREA_NAME).getJSONObject(0).getString(VALUE_KEY_VALUE) + ", " +
-					pJSONObj.getJSONArray(NEAREST_AREA).getJSONObject(0).getJSONArray(COUNTRY).getJSONObject(0).getString(VALUE_KEY_VALUE);
+			return pJSONObj.getJSONArray(NEAREST_AREA).getJSONObject(0).getJSONArray(AREA_NAME).getJSONObject(0).getString(KEY_VALUE) + ", " +
+					pJSONObj.getJSONArray(NEAREST_AREA).getJSONObject(0).getJSONArray(COUNTRY).getJSONObject(0).getString(KEY_VALUE);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return NOT_FOUND_DEFALT_VALUE;

@@ -1,4 +1,4 @@
-package by.mrkip.apps.weatherarchive;
+package by.mrkip.apps.weatherarchive.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,9 +13,11 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import by.mrkip.apps.weatherarchive.App;
+import by.mrkip.apps.weatherarchive.R;
 import by.mrkip.apps.weatherarchive.adapters.PlacesAutocompleteAdapter;
+import by.mrkip.apps.weatherarchive.jsonParsers.CityDataParser;
 import by.mrkip.apps.weatherarchive.model.PlaceData;
-import by.mrkip.apps.weatherarchive.presenters.CityDataPresenter;
 import by.mrkip.libs.http.HttpClient;
 import by.mrkip.libs.http.httpHelper.GetQueryBuilder;
 
@@ -27,7 +29,7 @@ import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_KEY;
 import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_PLACEID;
 
 
-public class CitySelectionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class CityAddingActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 	public static final int COUNT_CORE = Runtime.getRuntime().availableProcessors();
 	private ExecutorService executorService;
@@ -54,10 +56,13 @@ public class CitySelectionActivity extends AppCompatActivity implements AdapterV
 		executorService.execute(new Runnable() {
 			@Override
 			public void run() {
-				HttpClient httpClient = new HttpClient();
+			//	HttpClient httpClient = new HttpClient();
+				//noinspection WrongConstant
+				HttpClient httpClient = (HttpClient) getApplication().getSystemService(App.HTTP_CLIENT); //QT: Best way to resolve?
+
 				try {
 					//TODO check naming
- 					returnSelectedCity(httpClient.getResult(urlRequest, new CityDataPresenter()));
+ 					returnSelectedCity(httpClient.getResult(urlRequest, new CityDataParser()));
 
 				} catch (IOException e) {
 					//TODO don' ignore error

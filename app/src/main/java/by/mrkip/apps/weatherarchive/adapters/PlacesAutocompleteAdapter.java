@@ -13,8 +13,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.mrkip.apps.weatherarchive.App;
+import by.mrkip.apps.weatherarchive.jsonParsers.CitySelectionParser;
 import by.mrkip.apps.weatherarchive.model.PlaceData;
-import by.mrkip.apps.weatherarchive.presenters.CitySelectionPresenter;
 import by.mrkip.libs.http.HttpClient;
 import by.mrkip.libs.http.httpHelper.GetQueryBuilder;
 
@@ -77,10 +78,11 @@ public class PlacesAutocompleteAdapter extends ArrayAdapter<PlaceData> implement
 			@Nullable
 			private ArrayList<PlaceData> requestCityList(String urlRequest) {
 				//TODO adapter shouldn' know about httpClient
-				HttpClient httpClient = new HttpClient();
+				//noinspection WrongConstant
+				HttpClient httpClient = (HttpClient) App.getAppContext().getSystemService(App.HTTP_CLIENT);
 				try {
 					List<PlaceData> testL;
-					testL = httpClient.getResult(urlRequest, new CitySelectionPresenter());
+					testL = httpClient.getResult(urlRequest, new CitySelectionParser());
 					return (ArrayList<PlaceData>) testL;
 
 				} catch (IOException e) {

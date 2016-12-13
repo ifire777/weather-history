@@ -11,26 +11,19 @@
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--TODO clear not used code-->
-        <!--   <meta-data
-               android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyC6kbkyu1mwdz18BcylDhK_YlZretj9650"/>-->
+        <!--TODO clear not used code [+]-->
+
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:name=".activities.CitiesCurrentWeatherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SpecificCityActivity"
-            android:label="@string/app_name">
 
-        </activity>
+        <activity android:name=".activities.CityLastMonthWeatherActivity"/>
         <activity android:name=".location.LocationActivity"/>
-        <activity android:name=".CitySelectionActivity">
+        <activity android:name=".activities.CityAddingActivity">
 
         </activity>
 

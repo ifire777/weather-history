@@ -1,8 +1,7 @@
-package by.mrkip.apps.weatherarchive;
+package by.mrkip.apps.weatherarchive.activities;
 
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,25 +22,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import by.mrkip.apps.weatherarchive.App;
+import by.mrkip.apps.weatherarchive.R;
 import by.mrkip.apps.weatherarchive.adapters.WeatherCardAdapter;
-import by.mrkip.apps.weatherarchive.dateHelper.MyDateFun;
+import by.mrkip.apps.weatherarchive.jsonParsers.PastWeatherListPresenter;
 import by.mrkip.apps.weatherarchive.location.LocationActivity;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
-import by.mrkip.apps.weatherarchive.presenters.PastWeatherListPresenter;
+import by.mrkip.apps.weatherarchive.utils.MyDateFun;
+import by.mrkip.apps.weatherarchive.utils.SpecificQueryBuilder;
 import by.mrkip.libs.http.HttpClient;
-import by.mrkip.libs.http.httpHelper.GetQueryBuilder;
 
-import static by.mrkip.apps.weatherarchive.globalObj.Api.PAST_WEATHER_URL;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_DATE;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_ENDDATE;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_FORMAT;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_INCLUDELOCATION;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_KEY;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_Q;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_TP;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.WEATHER_API_KEY;
-
-public class SpecificCityActivity extends AppCompatActivity {
+public class CityLastMonthWeatherActivity extends AppCompatActivity {
 	private List<WeatherCard> cardsList;
 	private RecyclerView recyclerView;
 	private MyDateFun dtFun = new MyDateFun();
@@ -50,7 +41,7 @@ public class SpecificCityActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_specific_city);
+		setContentView(R.layout.activity_city_last_month_weather);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.alone_toolbar);
 		setSupportActionBar(toolbar);
@@ -73,7 +64,8 @@ public class SpecificCityActivity extends AppCompatActivity {
 		//TODO constnats
 		String city_lan = intent.getStringExtra("city_lan");
 		String city_lon = intent.getStringExtra("city_lon");
-		new MyTask().execute(getPastDayWeatherQuery(city_lan, city_lon, startDt, endDt));
+		//TODO: SpecificQueryBuilder() - app singltone
+		new MyTask().execute( new SpecificQueryBuilder().getPastDayWeatherQuery(city_lan, city_lon, startDt, endDt));
 
 	}
 
@@ -84,17 +76,7 @@ public class SpecificCityActivity extends AppCompatActivity {
 
 	}
 
-	private String getPastDayWeatherQuery(String coorLan, String coorLon, String startDt, String endDt) {
-		return new GetQueryBuilder(PAST_WEATHER_URL)
-				.addParam(QUERY_PARAM_Q, coorLan + "," + coorLon)
-				.addParam(QUERY_PARAM_FORMAT, "json")
-				.addParam(QUERY_PARAM_DATE, startDt)
-				.addParam(QUERY_PARAM_ENDDATE, endDt)
-				.addParam(QUERY_PARAM_INCLUDELOCATION, "yes")
-				.addParam(QUERY_PARAM_KEY, WEATHER_API_KEY)
-				.addParam(QUERY_PARAM_TP, "24")
-				.getUrl();
-	}
+
 
 	@Override
 	public void onBackPressed() {
@@ -162,7 +144,8 @@ public class SpecificCityActivity extends AppCompatActivity {
 
 		@Override
 		protected List<WeatherCard> doInBackground(String... args) {
-			HttpClient httpClient = new HttpClient();
+			//noinspection WrongConstant
+			HttpClient httpClient = (HttpClient) getSystemService(App.HTTP_CLIENT);
 			try {
 				List<WeatherCard> testL;
 				testL = httpClient.getResult(args[0], new PastWeatherListPresenter());

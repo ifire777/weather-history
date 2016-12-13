@@ -15,16 +15,17 @@ import java.util.List;
 
 import by.mrkip.apps.weatherarchive.App;
 import by.mrkip.apps.weatherarchive.R;
-import by.mrkip.apps.weatherarchive.SpecificCityActivity;
-import by.mrkip.apps.weatherarchive.globalObj.AppContextIns;
-import by.mrkip.apps.weatherarchive.imageLoader.SimpleImageLoader;
+import by.mrkip.apps.weatherarchive.activities.CityLastMonthWeatherActivity;
+import by.mrkip.apps.weatherarchive.imageLoader.ImageLoader;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
 
 public class WeatherCardAdapter extends RecyclerView.Adapter<WeatherCardAdapter.ViewHolder> {
 	private List<WeatherCard> mDataSet;
 	private int mDataSetTypes;
 	//TODO move to utils getSystemService
-	private SimpleImageLoader simpleImageLoader = (SimpleImageLoader) AppContextIns.get().getSystemService("image_loader");
+	//noinspection WrongConstant
+	@SuppressWarnings("WrongConstant")
+	private ImageLoader imageLoader = (ImageLoader) App.getAppContext().getSystemService(App.IMAGE_LOADER);
 
 
 	public WeatherCardAdapter(List<WeatherCard> dataSet, int dataSetTypes) {
@@ -58,7 +59,7 @@ public class WeatherCardAdapter extends RecyclerView.Adapter<WeatherCardAdapter.
 		holder.lan =mDataSet.get(position).getLan();
 		holder.lon =mDataSet.get(position).getLon();
 
-		simpleImageLoader.drawBitmap(holder.ivWeatherImg, mDataSet.get(position).getImageURL());
+		imageLoader.drawBitmap(holder.ivWeatherImg, mDataSet.get(position).getImageURL());
 
 		//	}
 	}
@@ -116,7 +117,7 @@ public class WeatherCardAdapter extends RecyclerView.Adapter<WeatherCardAdapter.
 		@Override
 		public void onClick(View v) {
 			//TODO: moove this action to Activity class
-			Intent intent = new Intent(v.getContext(), SpecificCityActivity.class);
+			Intent intent = new Intent(v.getContext(), CityLastMonthWeatherActivity.class);
 			intent.putExtra("city_lon",lon);
 			intent.putExtra("city_lan",lan);
 

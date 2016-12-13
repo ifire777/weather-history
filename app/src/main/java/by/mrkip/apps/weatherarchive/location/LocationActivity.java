@@ -15,7 +15,7 @@ import java.util.Locale;
 import by.mrkip.apps.weatherarchive.R;
 
 
-//TODO move to same package as another activities
+//TODO move to same package as another activities []
 public class LocationActivity extends AppCompatActivity {
 	TextView tvEnabledGPS;
 	TextView tvStatusGPS;

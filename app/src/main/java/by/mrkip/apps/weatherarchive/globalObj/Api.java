@@ -20,7 +20,6 @@ public class Api {
 	public static final String QUERY_PARAM_FORMAT = "format";
 	public static final String QUERY_PARAM_DATE = "date";
 	public static final String QUERY_PARAM_INCLUDELOCATION = "includelocation";
-	//public static final String QUERY_PARAM_KEY = "key";
 	public static final String QUERY_PARAM_TP = "tp";
 	public static final String QUERY_PARAM_ENDDATE = "enddate";
 	public static final String QUERY_PARAM_NUMOFDAY = "num_of_days";
