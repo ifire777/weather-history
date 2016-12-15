@@ -25,13 +25,18 @@ import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACES_API_BASE_URI;
 import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACES_API_OUT_JSON;
 import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACE_API_KEY;
 import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACE_API_TYPE_DETAILS;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_KEY;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_PLACEID;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonRequestParams.KEY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonRequestParams.PLACEID;
 
 
-public class CityAddingActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class PlaceSelectionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+	// TODO: 15.12.2016 [question]: need to remove Extra and request code of activates to some overall class ?
+	public static final int ACTIVITY_REQUEST_CODE_SELECT_PLACE = 1000;
+	public static final String OUT_EXTRA_CITY_LON = "cityLon";
+	public static final String OUT_EXTRA_CITY_LAN = "cityLan";
 
 	public static final int COUNT_CORE = Runtime.getRuntime().availableProcessors();
+
 	private ExecutorService executorService;
 
 	@Override
@@ -56,9 +61,9 @@ public class CityAddingActivity extends AppCompatActivity implements AdapterView
 		executorService.execute(new Runnable() {
 			@Override
 			public void run() {
-			//	HttpClient httpClient = new HttpClient();
+				// TODO: 15.12.2016 [question]:  Best way to resolve "noinspection WrongConstant"?
 				//noinspection WrongConstant
-				HttpClient httpClient = (HttpClient) getApplication().getSystemService(App.HTTP_CLIENT); //QT: Best way to resolve?
+				HttpClient httpClient = (HttpClient) getApplication().getSystemService(App.HTTP_CLIENT);
 
 				try {
 					//TODO check naming
@@ -81,16 +86,16 @@ public class CityAddingActivity extends AppCompatActivity implements AdapterView
 
 	private String getCityDataQuery(String placeID) {
 		return new GetQueryBuilder(PLACES_API_BASE_URI + PLACE_API_TYPE_DETAILS + PLACES_API_OUT_JSON)
-				.addParam(QUERY_PARAM_KEY, PLACE_API_KEY)
-				.addParam(QUERY_PARAM_PLACEID, placeID)
+				.addParam(KEY, PLACE_API_KEY)
+				.addParam(PLACEID, placeID)
 				.getUrl();
 	}
 
 	private void returnSelectedCity(PlaceData pCity) {
 
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra("cityLon", pCity.getLon());
-		resultIntent.putExtra("cityLan", pCity.getLan());
+		resultIntent.putExtra(OUT_EXTRA_CITY_LON, pCity.getLon());
+		resultIntent.putExtra(OUT_EXTRA_CITY_LAN, pCity.getLan());
 		setResult(Activity.RESULT_OK, resultIntent);
 		finish();
 	}

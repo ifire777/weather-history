@@ -1,9 +1,7 @@
 package by.mrkip.apps.weatherarchive.activities;
 
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import by.mrkip.apps.weatherarchive.App;
@@ -28,21 +24,42 @@ import by.mrkip.apps.weatherarchive.adapters.WeatherCardAdapter;
 import by.mrkip.apps.weatherarchive.jsonParsers.PastWeatherListPresenter;
 import by.mrkip.apps.weatherarchive.location.LocationActivity;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
-import by.mrkip.apps.weatherarchive.utils.MyDateFun;
-import by.mrkip.apps.weatherarchive.utils.SpecificQueryBuilder;
+import by.mrkip.apps.weatherarchive.utils.BackendQueryBuilder;
+import by.mrkip.apps.weatherarchive.utils.OutAppActions;
 import by.mrkip.libs.http.HttpClient;
 
 public class CityLastMonthWeatherActivity extends AppCompatActivity {
+	public static final String EXTRA_CITY_LAN = "city_lan";
+	public static final String EXTRA_CITY_LON = "city_lon";
+	public static final int BACK_DAYS_END = 30;
+	public static final int BACK_DAYS_START = 1;
+
 	private List<WeatherCard> cardsList;
 	private RecyclerView recyclerView;
-	private MyDateFun dtFun = new MyDateFun();
+
+	@SuppressWarnings("WrongConstant")
+	private BackendQueryBuilder systemService = (BackendQueryBuilder) App.getAppContext().getSystemService(App.BACKEND_QUERY_BUILDER);
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_city_last_month_weather);
 
+		initActivityElements();
+		initRecyclerView();
+
+		Intent intent = getIntent();
+
+		//TODO constnats
+		String city_lan = intent.getStringExtra(EXTRA_CITY_LAN);
+		String city_lon = intent.getStringExtra(EXTRA_CITY_LON);
+		//TODO: BackendQueryBuilder() - app singltone[+]
+
+		new MyTask().execute(systemService.getPastDaysWeatherQuery(city_lan, city_lon, BACK_DAYS_START, BACK_DAYS_END));
+
+	}
+
+	private void initActivityElements() {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.alone_toolbar);
 		setSupportActionBar(toolbar);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -51,31 +68,16 @@ public class CityLastMonthWeatherActivity extends AppCompatActivity {
 				onBackPressed();
 			}
 		});
-
-		recyclerView = (RecyclerView) findViewById(R.id.sca_view_recycle);
-		initRecyclerView();
-
-		Intent intent = getIntent();
-
-		Date dt = new Date();
-
-		String endDt = dtFun.dateDefToQueryParam(dt, Calendar.DAY_OF_MONTH, -1);
-		String startDt = dtFun.dateDefToQueryParam(dt, Calendar.DAY_OF_MONTH, -30);
-		//TODO constnats
-		String city_lan = intent.getStringExtra("city_lan");
-		String city_lon = intent.getStringExtra("city_lon");
-		//TODO: SpecificQueryBuilder() - app singltone
-		new MyTask().execute( new SpecificQueryBuilder().getPastDayWeatherQuery(city_lan, city_lon, startDt, endDt));
-
 	}
 
 
 	private void initRecyclerView() {
+		recyclerView = (RecyclerView) findViewById(R.id.sca_view_recycle);
+
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(new WeatherCardAdapter(cardsList, 0));
 
 	}
-
 
 
 	@Override
@@ -106,32 +108,12 @@ public class CityLastMonthWeatherActivity extends AppCompatActivity {
 			startActivity(intent);
 			return true;
 		} else if (id == R.id.action_mail) {
-			gotoMail(null);
+			//noinspection WrongConstant
+			((OutAppActions) App.getAppContext().getSystemService(App.OUT_APP_ACTIONS)).gotoMail(null);
 			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void gotoMail(View view) {
-		String mailto = "mailto:bob@example.org" +
-				"?subject=" + Uri.encode(getString(R.string.mail_head)) +
-				"&body=" + Uri.encode(getString(R.string.mail_body));
-
-		Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-		emailIntent.setData(Uri.parse(mailto));
-
-		try {
-			startActivity(emailIntent);
-		} catch (ActivityNotFoundException e) {
-			Snackbar.make(view, "E-mail app unavailable." + e.toString(), Snackbar.LENGTH_LONG)
-					.setAction("Action", null).show();
-		} catch (Exception e) {
-			Snackbar.make(view, "error ." + e.toString(), Snackbar.LENGTH_LONG)
-					.setAction("Action", null).show();
-
-		}
-
 	}
 
 	class MyTask extends AsyncTask<String, Integer, List<WeatherCard>> {
@@ -145,7 +127,7 @@ public class CityLastMonthWeatherActivity extends AppCompatActivity {
 		@Override
 		protected List<WeatherCard> doInBackground(String... args) {
 			//noinspection WrongConstant
-			HttpClient httpClient = (HttpClient) getSystemService(App.HTTP_CLIENT);
+			HttpClient httpClient = (HttpClient) App.getAppContext().getSystemService(App.HTTP_CLIENT);
 			try {
 				List<WeatherCard> testL;
 				testL = httpClient.getResult(args[0], new PastWeatherListPresenter());

@@ -18,19 +18,19 @@ import by.mrkip.apps.weatherarchive.R;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
 import by.mrkip.libs.http.HttpClient;
 
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.AREA_NAME;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.COUNTRY;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.DATA;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.HOURLY;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.NEAREST_AREA;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.WEATHER;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.WEATHER_DESC;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.WEATHER_ICON_URL;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.DATE;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.HUMIDITY;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.KEY_VALUE;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.TEMP_C1;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.WINDSPEED_KMPH;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.AREA_NAME;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.COUNTRY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.DATA;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.HOURLY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.NEAREST_AREA;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.WEATHER;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.WEATHER_DESC;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.WEATHER_ICON_URL;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.DATE;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.HUMIDITY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.KEY_VALUE;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.TEMP_C1;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.WINDSPEED_KMPH;
 
 public class PastWeatherListPresenter implements HttpClient.ResultConverter<List<WeatherCard>> {
 	public static final String NOT_FOUND_DEFALT_VALUE = "-";

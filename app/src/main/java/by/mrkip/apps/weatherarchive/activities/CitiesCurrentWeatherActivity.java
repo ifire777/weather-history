@@ -29,21 +29,20 @@ import by.mrkip.apps.weatherarchive.adapters.WeatherCardAdapter;
 import by.mrkip.apps.weatherarchive.jsonParsers.CurrentWeatherCityListParser;
 import by.mrkip.apps.weatherarchive.location.LocationActivity;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
-import by.mrkip.apps.weatherarchive.utils.SpecificActions;
-import by.mrkip.apps.weatherarchive.utils.SpecificQueryBuilder;
+import by.mrkip.apps.weatherarchive.utils.BackendQueryBuilder;
+import by.mrkip.apps.weatherarchive.utils.OutAppActions;
 import by.mrkip.libs.http.HttpClient;
 
 import static android.content.ContentValues.TAG;
+import static by.mrkip.apps.weatherarchive.activities.PlaceSelectionActivity.ACTIVITY_REQUEST_CODE_SELECT_PLACE;
 
 public class CitiesCurrentWeatherActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-	private static final int REQUEST_SELECT_PLACE = 1000;
-
-
 	private List<WeatherCard> cardsList;
 	private RecyclerView recyclerView;
-	private SpecificQueryBuilder specificQueryBuilder;
+	@SuppressWarnings("WrongConstant")
+	private BackendQueryBuilder backendQueryBuilder = (BackendQueryBuilder) App.getAppContext().getSystemService(App.BACKEND_QUERY_BUILDER);
 
 
 	@Override
@@ -53,30 +52,23 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 		initActivityElements();
 		initRecyclerView();
 
-		//TODO:self-Singltone over app
-		specificQueryBuilder = new SpecificQueryBuilder();
-
 		//TODO: start city list get from sqlite or preference
-		//TODO MyTask
-		new MyTask().execute(specificQueryBuilder.buildFutureDayWeatherQuery("53.6667", "23.8333", "today"),
-				specificQueryBuilder.buildFutureDayWeatherQuery("23.6667", "13.8333", "today"),
-				specificQueryBuilder.buildFutureDayWeatherQuery("77.4445", "-35.6835", "today"),
-				specificQueryBuilder.buildFutureDayWeatherQuery("63.6667", "123.8333", "today"));
+		new MyTask().execute(backendQueryBuilder.buildFutureDayWeatherQuery("53.6667", "23.8333", "today",1),
+				backendQueryBuilder.buildFutureDayWeatherQuery("23.6667", "13.8333", "today",1),
+				backendQueryBuilder.buildFutureDayWeatherQuery("77.4445", "-35.6835", "today",1),
+				backendQueryBuilder.buildFutureDayWeatherQuery("63.6667", "123.8333", "today",1));
 	}
 
 	private void initActivityElements() {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
-		//TODO create separated method[+]
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				//TODO clear that[+]
-				Intent intent = new Intent(CitiesCurrentWeatherActivity.this, CityAddingActivity.class);
-				startActivityForResult(intent, REQUEST_SELECT_PLACE);
-				//TODO very bad solution {try catch with hide error}[+]
+				Intent intent = new Intent(CitiesCurrentWeatherActivity.this, PlaceSelectionActivity.class);
+				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_SELECT_PLACE);
 			}
 
 		});
@@ -121,17 +113,12 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_SELECT_PLACE) {
+		if (requestCode == ACTIVITY_REQUEST_CODE_SELECT_PLACE) {
 			if (resultCode == RESULT_OK) {
-
-
-				new MyTask().execute(specificQueryBuilder.buildFutureDayWeatherQuery(data.getStringExtra("cityLan"), data.getStringExtra("cityLon"), "today"));
-
+				new MyTask().execute(backendQueryBuilder.buildFutureDayWeatherQuery(data.getStringExtra("cityLan"), data.getStringExtra("cityLon"), "today",1));
 			} else {
-				//TODO hardcode[+]
 				Snackbar.make(new View(this), R.string.message_place_selection_fail, Snackbar.LENGTH_LONG)
 						.setAction(R.string.message_header_information, null).show();
-
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -170,7 +157,7 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 			startActivity(intent);
 			return true;
 		} else if (id == R.id.action_mail) {
-			new SpecificActions().gotoMail(this);
+			new OutAppActions().gotoMail(this);
 			return true;
 		}
 
@@ -243,12 +230,12 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 
 		@Override
 		protected void onPostExecute(List<WeatherCard> result) {
-			//TODO call super
-//				super.onPostExecute(result);
+
 			if (result != null) {
 				cardsList = result;
 				((WeatherCardAdapter) recyclerView.getAdapter()).addItems(result);
 			}
+			super.onPostExecute(result);
 		}
 
 	}

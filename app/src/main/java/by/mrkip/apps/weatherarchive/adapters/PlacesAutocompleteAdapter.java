@@ -23,9 +23,11 @@ import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACES_API_BASE_URI;
 import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACES_API_OUT_JSON;
 import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACES_API_TYPE_AUTOCOMPLETE;
 import static by.mrkip.apps.weatherarchive.globalObj.Api.PLACE_API_KEY;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_INPUT;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_KEY;
-import static by.mrkip.apps.weatherarchive.globalObj.Api.QUERY_PARAM_TYPES;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonRequestParams.CITIES;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonRequestParams.INPUT;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonRequestParams.KEY;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonRequestParams.TYPES;
+
 
 public class PlacesAutocompleteAdapter extends ArrayAdapter<PlaceData> implements Filterable {
 
@@ -45,9 +47,8 @@ public class PlacesAutocompleteAdapter extends ArrayAdapter<PlaceData> implement
 
 	@Override
 	public PlaceData getItem(int index) {
-		return  resultList.get(index);
+		return resultList.get(index);
 	}
-
 
 
 	@Override
@@ -77,7 +78,7 @@ public class PlacesAutocompleteAdapter extends ArrayAdapter<PlaceData> implement
 
 			@Nullable
 			private ArrayList<PlaceData> requestCityList(String urlRequest) {
-				//TODO adapter shouldn' know about httpClient
+				//TODO adapter shouldn't know about httpClient
 				//noinspection WrongConstant
 				HttpClient httpClient = (HttpClient) App.getAppContext().getSystemService(App.HTTP_CLIENT);
 				try {
@@ -107,9 +108,9 @@ public class PlacesAutocompleteAdapter extends ArrayAdapter<PlaceData> implement
 
 			private String getCityAutocompleteQuery(String constraintStr) throws UnsupportedEncodingException {
 				return new GetQueryBuilder(PLACES_API_BASE_URI + PLACES_API_TYPE_AUTOCOMPLETE + PLACES_API_OUT_JSON)
-						.addParam(QUERY_PARAM_KEY, PLACE_API_KEY)
-						.addParam(QUERY_PARAM_TYPES, "(cities)")
-						.addParam(QUERY_PARAM_INPUT, URLEncoder.encode(constraintStr, "utf8"))
+						.addParam(KEY, PLACE_API_KEY)
+						.addParam(TYPES, CITIES)
+						.addParam(INPUT, URLEncoder.encode(constraintStr, "utf8"))
 						.getUrl();
 			}
 		};

@@ -7,12 +7,6 @@ public interface ImageLoader {
 	void drawBitmap(final ImageView imageView, final String imageUrl);
 
 	class Impl {
-/*
-
-		public static ImageLoader getInstance(Context context) {
-		return null;
-		}
-*/
 
     		public static ImageLoader newInstance() {
 			return new ImageLoaderImpl();

@@ -6,9 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class MyDateFun {
+public class DateHelpFunc {
 
-	public MyDateFun() {
+	public DateHelpFunc() {
 	}
 
 	public String dateDefToQueryParam(Date pDt, int defType, int defNum) {

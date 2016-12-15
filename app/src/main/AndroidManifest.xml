@@ -23,7 +23,7 @@
 
         <activity android:name=".activities.CityLastMonthWeatherActivity"/>
         <activity android:name=".location.LocationActivity"/>
-        <activity android:name=".activities.CityAddingActivity">
+        <activity android:name=".activities.PlaceSelectionActivity">
 
         </activity>
 

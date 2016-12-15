@@ -10,7 +10,7 @@ import by.mrkip.apps.weatherarchive.App;
 import by.mrkip.apps.weatherarchive.R;
 
 //TODO singletone
-public class SpecificActions {
+public class OutAppActions {
 
 	public static final String MAILTO = "mailto:";
 	public static final String SUBJECT = "?subject=";
@@ -18,7 +18,7 @@ public class SpecificActions {
 
 	//TODO move to utils[+]
 	public void gotoMail(Context context) {
-		String mailto = MAILTO +App.getAppContext().getString(R.string.app_support_mail) +
+		String mailto = MAILTO + App.getAppContext().getString(R.string.app_support_mail) +
 				SUBJECT + Uri.encode(App.getAppContext().getString(R.string.mail_head)) +
 				BODY + Uri.encode(App.getAppContext().getString(R.string.mail_body));
 

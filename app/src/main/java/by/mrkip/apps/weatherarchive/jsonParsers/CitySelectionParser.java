@@ -17,11 +17,11 @@ import java.util.List;
 import by.mrkip.apps.weatherarchive.model.PlaceData;
 import by.mrkip.libs.http.HttpClient;
 
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonObectsTags.PREDICTIONS;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.DESCRIPTION;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.ERROR_MESSAGE;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.PLACE_ID;
-import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonValuesTags.STATUS;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseObjectsTags.PREDICTIONS;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.DESCRIPTION;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.ERROR_MESSAGE;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.PLACE_ID;
+import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.STATUS;
 
 public class CitySelectionParser implements HttpClient.ResultConverter<List<PlaceData>> {
 
