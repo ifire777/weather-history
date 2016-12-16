@@ -37,8 +37,9 @@ public class CityLastMonthWeatherActivity extends AppCompatActivity {
 	private List<WeatherCard> cardsList;
 	private RecyclerView recyclerView;
 
+	// TODO: 15.12.2016 [question]: haw to use app singleton object in other class : make private field or use everywhere strate request?
 	@SuppressWarnings("WrongConstant")
-	private BackendQueryBuilder systemService = (BackendQueryBuilder) App.getAppContext().getSystemService(App.BACKEND_QUERY_BUILDER);
+	private BackendQueryBuilder backendQueryBuilder = (BackendQueryBuilder) App.getAppContext().getSystemService(App.BACKEND_QUERY_BUILDER);
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,12 +51,11 @@ public class CityLastMonthWeatherActivity extends AppCompatActivity {
 
 		Intent intent = getIntent();
 
-		//TODO constnats
 		String city_lan = intent.getStringExtra(EXTRA_CITY_LAN);
 		String city_lon = intent.getStringExtra(EXTRA_CITY_LON);
-		//TODO: BackendQueryBuilder() - app singltone[+]
 
-		new MyTask().execute(systemService.getPastDaysWeatherQuery(city_lan, city_lon, BACK_DAYS_START, BACK_DAYS_END));
+
+		new MyTask().execute(backendQueryBuilder.getPastDaysWeatherQuery(city_lan, city_lon, BACK_DAYS_START, BACK_DAYS_END));
 
 	}
 
@@ -94,12 +94,8 @@ public class CityLastMonthWeatherActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
-		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
 			return true;
 		}

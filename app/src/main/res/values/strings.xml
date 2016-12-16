@@ -25,4 +25,6 @@
     <string name="app_support_mail">bob@example.org</string>
     <string name="message_email_app_unevailable">E-mail app unavailable.</string>
     <string name="message_error">Error :</string>
+    <string name="message_shared_pref_save_error">"Error while try to save in sharedPreference : "</string>
+    <string name="message_shared_qpref_get_error">"Error while try to get from sharedPreference: "</string>
 </resources>

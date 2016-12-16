@@ -18,12 +18,12 @@ public class OutAppActions {
 
 	//TODO move to utils[+]
 	public void gotoMail(Context context) {
-		String mailto = MAILTO + App.getAppContext().getString(R.string.app_support_mail) +
+		String mailTo = MAILTO + App.getAppContext().getString(R.string.app_support_mail) +
 				SUBJECT + Uri.encode(App.getAppContext().getString(R.string.mail_head)) +
 				BODY + Uri.encode(App.getAppContext().getString(R.string.mail_body));
 
 		Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-		emailIntent.setData(Uri.parse(mailto));
+		emailIntent.setData(Uri.parse(mailTo));
 
 		try {
 			context.startActivity(emailIntent);

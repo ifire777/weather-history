@@ -30,7 +30,7 @@ import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonRequestParams.
 
 
 public class PlaceSelectionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-	// TODO: 15.12.2016 [question]: need to remove Extra and request code of activates to some overall class ?
+	// TODO: 15.12.2016 [question]: need to remove "Extra" and "request code" fields of activates to some overall class ?
 	public static final int ACTIVITY_REQUEST_CODE_SELECT_PLACE = 1000;
 	public static final String OUT_EXTRA_CITY_LON = "cityLon";
 	public static final String OUT_EXTRA_CITY_LAN = "cityLan";
