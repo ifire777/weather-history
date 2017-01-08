@@ -1,6 +1,6 @@
 package by.mrkip.apps.weatherarchive.threads;
 
-public interface OnResultCallback<Result, Progress> extends ProgressCallback<Progress> {
+public interface OnTreadResultCallback<Result, Progress> extends ProgressCallback<Progress> {
 
 	void onSuccess(Result result);
 

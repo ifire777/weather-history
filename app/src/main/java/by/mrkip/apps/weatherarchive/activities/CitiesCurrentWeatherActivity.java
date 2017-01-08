@@ -1,7 +1,6 @@
 package by.mrkip.apps.weatherarchive.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,35 +13,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import by.mrkip.apps.weatherarchive.App;
 import by.mrkip.apps.weatherarchive.R;
 import by.mrkip.apps.weatherarchive.adapters.WeatherCardAdapter;
-import by.mrkip.apps.weatherarchive.jsonParsers.CurrentWeatherCityListParser;
+import by.mrkip.apps.weatherarchive.citiesCurrentWeather.CitiesCurrentWeatherPresenter;
 import by.mrkip.apps.weatherarchive.location.LocationActivity;
 import by.mrkip.apps.weatherarchive.model.WeatherCard;
-import by.mrkip.apps.weatherarchive.utils.BackendQueryBuilder;
 import by.mrkip.apps.weatherarchive.utils.OutAppActions;
-import by.mrkip.libs.http.HttpClient;
 
-import static android.content.ContentValues.TAG;
 import static by.mrkip.apps.weatherarchive.activities.PlaceSelectionActivity.ACTIVITY_REQUEST_CODE_SELECT_PLACE;
 
 public class CitiesCurrentWeatherActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
 	private List<WeatherCard> cardsList;
+
+
 	private RecyclerView recyclerView;
-	@SuppressWarnings("WrongConstant")
-	private BackendQueryBuilder backendQueryBuilder = (BackendQueryBuilder) App.getAppContext().getSystemService(App.BACKEND_QUERY_BUILDER);
+	private CitiesCurrentWeatherPresenter presenter;
 
 
 	@Override
@@ -51,12 +44,9 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 		setContentView(R.layout.activity_cities_current_weather);
 		initActivityElements();
 		initRecyclerView();
+		presenter = new CitiesCurrentWeatherPresenter(this);
+		presenter.uploadStartData();
 
-		//TODO: start city list get from sqlite or preference
-		new MyTask().execute(backendQueryBuilder.buildFutureDayWeatherQuery("53.6667", "23.8333", "today",1),
-				backendQueryBuilder.buildFutureDayWeatherQuery("23.6667", "13.8333", "today",1),
-				backendQueryBuilder.buildFutureDayWeatherQuery("77.4445", "-35.6835", "today",1),
-				backendQueryBuilder.buildFutureDayWeatherQuery("63.6667", "123.8333", "today",1));
 	}
 
 	private void initActivityElements() {
@@ -92,7 +82,6 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 		setItemTouchHelper();
 	}
 
-
 	private void setItemTouchHelper() {
 		ItemTouchHelper.SimpleCallback swipeTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 			@Override
@@ -115,7 +104,7 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ACTIVITY_REQUEST_CODE_SELECT_PLACE) {
 			if (resultCode == RESULT_OK) {
-				new MyTask().execute(backendQueryBuilder.buildFutureDayWeatherQuery(data.getStringExtra("cityLan"), data.getStringExtra("cityLon"), "today",1));
+				presenter.loadNewData(data.getStringExtra("cityLan"), data.getStringExtra("cityLon"));
 			} else {
 				Snackbar.make(new View(this), R.string.message_place_selection_fail, Snackbar.LENGTH_LONG)
 						.setAction(R.string.message_header_information, null).show();
@@ -190,9 +179,13 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 		return true;
 	}
 
+	public RecyclerView getRecyclerView() {
+		return recyclerView;
+	}
+
 	//TODO move to another class
 	//TODO create some abstractions for that
-	class MyTask extends AsyncTask<String, Integer, List<WeatherCard>> {
+	/*class MyTask extends AsyncTask<String, Integer, List<WeatherCard>> {
 
 		@Override
 		protected void onPreExecute() {
@@ -238,6 +231,6 @@ public class CitiesCurrentWeatherActivity extends AppCompatActivity implements N
 			super.onPostExecute(result);
 		}
 
-	}
+	}*/
 
 }

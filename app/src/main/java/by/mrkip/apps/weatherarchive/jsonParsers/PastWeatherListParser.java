@@ -32,7 +32,7 @@ import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValues
 import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.TEMP_C1;
 import static by.mrkip.apps.weatherarchive.globalObj.JsonKeys.JsonResponseValuesTags.WINDSPEED_KMPH;
 
-public class PastWeatherListPresenter implements HttpClient.ResultConverter<List<WeatherCard>> {
+public class PastWeatherListParser implements HttpClient.ResultConverter<List<WeatherCard>> {
 	public static final String NOT_FOUND_DEFALT_VALUE = "-";
 
 	private final Context context = App.getAppContext();
